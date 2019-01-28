@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjy.buy.mapper.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cjy.buy.entity.Role">
+        <id column="f_id"  property="id" />
+        <result column="f_role"  property="role" />
+        <result column="f_description"  property="description" />
+        <result column="f_available"  property="available" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        f_id, f_role, f_description, f_available
+    </sql>  
+    
+    <!--创建记录 -->
+	<insert id="insert" parameterType="com.cjy.buy.entity.Role" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_base_role
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id!=null">f_id,</if>
+          <if test="role!=null">f_role,</if>
+          <if test="description!=null">f_description,</if>
+          <if test="available!=null">f_available</if>
+        </trim>
+	    <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+          <if test="id!=null">#{id},</if>
+          <if test="role!=null">#{role},</if>
+          <if test="description!=null">#{description},</if>
+          <if test="available!=null">#{available}</if>
+	    </trim>
+	</insert>    
+    <!--批量创建记录 -->
+	<insert id="batchSave" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_base_role
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+	          <if test="item.id!=null">f_id,</if>
+	          <if test="item.role!=null">f_role,</if>
+	          <if test="item.description!=null">f_description,</if>
+	          <if test="item.available!=null">f_available</if>
+	    </trim> 
+	    VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+	          <if test="item.id!=null">#{item.id},</if>
+	          <if test="item.role!=null">#{item.role},</if>
+	          <if test="item.description!=null">#{item.description},</if>
+	          <if test="item.available!=null">#{item.available}</if>
+		    </trim>
+		</foreach>;
+	</insert>
+<!-- 更新记录 -->
+	<update id="update" parameterType="com.cjy.buy.entity.Role">
+		UPDATE t_base_role
+		<set>
+          <if test="role!=null">f_role = #{role},</if>
+          <if test="description!=null">f_description = #{description},</if>
+          <if test="available!=null">f_available = #{available}</if>
+		</set>
+		<where> 
+        f_id = #{id}
+		</where>				
+	</update>    
+    
+	<!--批量更新记录 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE t_base_role
+			<set>
+	          <if test="item.role!=null">f_role = #{item.role},</if>
+	          <if test="item.description!=null">f_description = #{item.description},</if>
+	          <if test="item.available!=null">f_available = #{item.available}</if>
+			</set>
+			<where> 
+	          f_id = #{item.id}
+			</where>
+		</foreach>
+	</update>    
+    <!-- 按ID查询记录 -->
+	<select id="selectById" parameterType="long" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM t_base_role
+		WHERE 
+	      f_id = #{id}
+	</select>
+	<!-- 查询所有记录 -->
+	<select id="selectList" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM t_base_role	
+	</select>
+	
+	<!-- 按Id删除 -->
+	<delete id="deleteById" parameterType="long">
+		DELETE FROM t_base_role 
+		WHERE 
+	      f_id = #{id}
+	</delete>
+
+	<!-- 按Id批量删除 -->
+	<delete id="deleteBatchIds" parameterType="java.util.List">
+		DELETE FROM t_base_role WHERE 
+	      f_id
+          in (
+		<foreach collection="list" item="item" index="index" separator=";">
+			#{item}
+		</foreach>
+		)
+	</delete>
+    <select id="selectByPage" parameterType="com.cjy.buy.common.PageInfoReqVo" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from t_base_role
+	    <where>
+	       1=1
+	       <if test="queryData!=null">
+		       <if test="queryData.role!=null and queryData.role!='' "> and f_role like CONCAT('%',#{queryData.role},'%')</if> 
+			       <if test="queryData.description!=null and queryData.description!='' "> and f_description like CONCAT('%',#{queryData.description},'%')</if> 
+			       <if test="queryData.available!=null"> and f_available = #{queryData.available}</if>
+			   </if>
+	    </where>
+	  </select>
+    
+</mapper>

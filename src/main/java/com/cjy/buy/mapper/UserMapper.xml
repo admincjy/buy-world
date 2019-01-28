@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjy.buy.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cjy.buy.entity.User">
+        <id column="f_id"  property="id" />
+        <result column="f_username"  property="username" />
+        <result column="f_name"  property="name" />
+        <result column="f_password"  property="password" />
+        <result column="f_salt"  property="salt" />
+        <result column="f_userface"  property="userface" />
+        <result column="f_remark"  property="remark" />
+        <result column="f_create_time"  property="createTime" />
+        <result column="f_telephone"  property="telephone" />
+        <result column="f_address"  property="address" />
+        <result column="f_state"  property="state" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        f_id, f_username, f_name, f_password, f_salt, f_userface, f_remark, f_create_time, f_telephone, f_address, f_state
+    </sql>  
+    
+    <!--创建记录 -->
+	<insert id="insert" parameterType="com.cjy.buy.entity.User" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_base_user
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id!=null">f_id,</if>
+          <if test="username!=null">f_username,</if>
+          <if test="name!=null">f_name,</if>
+          <if test="password!=null">f_password,</if>
+          <if test="salt!=null">f_salt,</if>
+          <if test="userface!=null">f_userface,</if>
+          <if test="remark!=null">f_remark,</if>
+          <if test="createTime!=null">f_create_time,</if>
+          <if test="telephone!=null">f_telephone,</if>
+          <if test="address!=null">f_address,</if>
+          <if test="state!=null">f_state</if>
+        </trim>
+	    <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+          <if test="id!=null">#{id},</if>
+          <if test="username!=null">#{username},</if>
+          <if test="name!=null">#{name},</if>
+          <if test="password!=null">#{password},</if>
+          <if test="salt!=null">#{salt},</if>
+          <if test="userface!=null">#{userface},</if>
+          <if test="remark!=null">#{remark},</if>
+          <if test="createTime!=null">#{createTime},</if>
+          <if test="telephone!=null">#{telephone},</if>
+          <if test="address!=null">#{address},</if>
+          <if test="state!=null">#{state}</if>
+	    </trim>
+	</insert>    
+    <!--批量创建记录 -->
+	<insert id="batchSave" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_base_user
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+	          <if test="item.id!=null">f_id,</if>
+	          <if test="item.username!=null">f_username,</if>
+	          <if test="item.name!=null">f_name,</if>
+	          <if test="item.password!=null">f_password,</if>
+	          <if test="item.salt!=null">f_salt,</if>
+	          <if test="item.userface!=null">f_userface,</if>
+	          <if test="item.remark!=null">f_remark,</if>
+	          <if test="item.createTime!=null">f_create_time,</if>
+	          <if test="item.telephone!=null">f_telephone,</if>
+	          <if test="item.address!=null">f_address,</if>
+	          <if test="item.state!=null">f_state</if>
+	    </trim> 
+	    VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+	          <if test="item.id!=null">#{item.id},</if>
+	          <if test="item.username!=null">#{item.username},</if>
+	          <if test="item.name!=null">#{item.name},</if>
+	          <if test="item.password!=null">#{item.password},</if>
+	          <if test="item.salt!=null">#{item.salt},</if>
+	          <if test="item.userface!=null">#{item.userface},</if>
+	          <if test="item.remark!=null">#{item.remark},</if>
+	          <if test="item.createTime!=null">#{item.createTime},</if>
+	          <if test="item.telephone!=null">#{item.telephone},</if>
+	          <if test="item.address!=null">#{item.address},</if>
+	          <if test="item.state!=null">#{item.state}</if>
+		    </trim>
+		</foreach>;
+	</insert>
+<!-- 更新记录 -->
+	<update id="update" parameterType="com.cjy.buy.entity.User">
+		UPDATE t_base_user
+		<set>
+          <if test="username!=null">f_username = #{username},</if>
+          <if test="name!=null">f_name = #{name},</if>
+          <if test="password!=null">f_password = #{password},</if>
+          <if test="salt!=null">f_salt = #{salt},</if>
+          <if test="userface!=null">f_userface = #{userface},</if>
+          <if test="remark!=null">f_remark = #{remark},</if>
+          <if test="createTime!=null">f_create_time = #{createTime},</if>
+          <if test="telephone!=null">f_telephone = #{telephone},</if>
+          <if test="address!=null">f_address = #{address},</if>
+          <if test="state!=null">f_state = #{state}</if>
+		</set>
+		<where> 
+        f_id = #{id}
+		</where>				
+	</update>    
+    
+	<!--批量更新记录 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE t_base_user
+			<set>
+	          <if test="item.username!=null">f_username = #{item.username},</if>
+	          <if test="item.name!=null">f_name = #{item.name},</if>
+	          <if test="item.password!=null">f_password = #{item.password},</if>
+	          <if test="item.salt!=null">f_salt = #{item.salt},</if>
+	          <if test="item.userface!=null">f_userface = #{item.userface},</if>
+	          <if test="item.remark!=null">f_remark = #{item.remark},</if>
+	          <if test="item.createTime!=null">f_create_time = #{item.createTime},</if>
+	          <if test="item.telephone!=null">f_telephone = #{item.telephone},</if>
+	          <if test="item.address!=null">f_address = #{item.address},</if>
+	          <if test="item.state!=null">f_state = #{item.state}</if>
+			</set>
+			<where> 
+	          f_id = #{item.id}
+			</where>
+		</foreach>
+	</update>    
+    <!-- 按ID查询记录 -->
+	<select id="selectById" parameterType="long" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM t_base_user
+		WHERE 
+	      f_id = #{id}
+	</select>
+	<!-- 查询所有记录 -->
+	<select id="selectList" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM t_base_user	
+	</select>
+	
+	<!-- 按Id删除 -->
+	<delete id="deleteById" parameterType="long">
+		DELETE FROM t_base_user 
+		WHERE 
+	      f_id = #{id}
+	</delete>
+
+	<!-- 按Id批量删除 -->
+	<delete id="deleteBatchIds" parameterType="java.util.List">
+		DELETE FROM t_base_user WHERE 
+	      f_id
+          in (
+		<foreach collection="list" item="item" index="index" separator=";">
+			#{item}
+		</foreach>
+		)
+	</delete>
+    <select id="selectByPage" parameterType="com.cjy.buy.common.PageInfoReqVo" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from t_base_user
+	    <where>
+	       1=1
+	       <if test="queryData!=null">
+		       <if test="queryData.username!=null and queryData.username!='' "> and f_username like CONCAT('%',#{queryData.username},'%')</if> 
+			       <if test="queryData.name!=null and queryData.name!='' "> and f_name like CONCAT('%',#{queryData.name},'%')</if> 
+			       <if test="queryData.password!=null and queryData.password!='' "> and f_password like CONCAT('%',#{queryData.password},'%')</if> 
+			       <if test="queryData.salt!=null and queryData.salt!='' "> and f_salt like CONCAT('%',#{queryData.salt},'%')</if> 
+			       <if test="queryData.userface!=null and queryData.userface!='' "> and f_userface like CONCAT('%',#{queryData.userface},'%')</if> 
+			       <if test="queryData.remark!=null and queryData.remark!='' "> and f_remark like CONCAT('%',#{queryData.remark},'%')</if> 
+			       <if test="queryData.createTime!=null"> and f_create_time = #{queryData.createTime}</if>
+			       <if test="queryData.telephone!=null and queryData.telephone!='' "> and f_telephone like CONCAT('%',#{queryData.telephone},'%')</if> 
+			       <if test="queryData.address!=null and queryData.address!='' "> and f_address like CONCAT('%',#{queryData.address},'%')</if> 
+			       <if test="queryData.state!=null"> and f_state = #{queryData.state}</if>
+			   </if>
+	    </where>
+	  </select>
+
+		<!-- 按Username查询记录 -->
+		<select id="findByUsername" parameterType="string" resultMap="BaseResultMap">
+			SELECT *
+			FROM t_base_user
+			WHERE
+			f_username = #{username} and f_state !=2
+		</select>
+
+		<!-- 按Username查询密码 -->
+		<select id="selectByUsername" parameterType="java.lang.String" resultType="String">
+			SELECT f_password
+			FROM t_base_user
+			WHERE
+			f_username = 'cjy' and f_state !=2
+		</select>
+
+		<!-- 按Username查询角色 -->
+		<select id="findRoles" parameterType="string" resultType="String">
+			SELECT t3.f_role
+			FROM t_base_user t1
+			LEFT JOIN t_base_user_role t2 ON t1.f_id=t2.f_user_id
+			LEFT JOIN t_base_role t3 on t2.f_role_id=t3.f_id
+			WHERE
+			t1.f_username = #{username} and t1.f_state !=2 and t3.f_available=0
+		</select>
+
+		<!-- 按Username查询权限 -->
+		<select id="findPermissions" parameterType="string" resultType="String">
+			SELECT t5.f_permission
+			FROM t_base_user t1
+			LEFT JOIN t_base_user_role t2 ON t1.f_id=t2.f_user_id
+			LEFT JOIN t_base_role t3 on t2.f_role_id=t3.f_id
+			LEFT JOIN t_base_menu_role t4 on t4.f_role_id=t3.f_id
+			LEFT JOIN t_base_menu t5 on t4.f_menu_id=t5.f_id
+			WHERE
+			t1.f_username = #{username} and t1.f_state !=2 and t3.f_available=0
+			AND t5.f_available=0
+		</select>
+    
+</mapper>

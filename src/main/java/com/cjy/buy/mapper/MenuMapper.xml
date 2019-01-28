@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjy.buy.mapper.MenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cjy.buy.entity.Menu">
+        <id column="f_id"  property="id" />
+        <result column="f_url"  property="url" />
+        <result column="f_path"  property="path" />
+        <result column="f_component"  property="component" />
+        <result column="f_name"  property="name" />
+        <result column="f_icon_cls"  property="iconCls" />
+        <result column="f_keep_alive"  property="keepAlive" />
+        <result column="f_require_auth"  property="requireAuth" />
+        <result column="f_parent_id"  property="parentId" />
+        <result column="f_available"  property="available" />
+        <result column="f_parent_ids"  property="parentIds" />
+        <result column="f_resource_type"  property="resourceType" />
+        <result column="f_permission"  property="permission" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        f_id, f_url, f_path, f_component, f_name, f_icon_cls, f_keep_alive, f_require_auth, f_parent_id, f_available, f_parent_ids, f_resource_type, f_permission
+    </sql>  
+    
+    <!--创建记录 -->
+	<insert id="insert" parameterType="com.cjy.buy.entity.Menu" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_base_menu
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id!=null">f_id,</if>
+          <if test="url!=null">f_url,</if>
+          <if test="path!=null">f_path,</if>
+          <if test="component!=null">f_component,</if>
+          <if test="name!=null">f_name,</if>
+          <if test="iconCls!=null">f_icon_cls,</if>
+          <if test="keepAlive!=null">f_keep_alive,</if>
+          <if test="requireAuth!=null">f_require_auth,</if>
+          <if test="parentId!=null">f_parent_id,</if>
+          <if test="available!=null">f_available,</if>
+          <if test="parentIds!=null">f_parent_ids,</if>
+          <if test="resourceType!=null">f_resource_type,</if>
+          <if test="permission!=null">f_permission</if>
+        </trim>
+	    <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+          <if test="id!=null">#{id},</if>
+          <if test="url!=null">#{url},</if>
+          <if test="path!=null">#{path},</if>
+          <if test="component!=null">#{component},</if>
+          <if test="name!=null">#{name},</if>
+          <if test="iconCls!=null">#{iconCls},</if>
+          <if test="keepAlive!=null">#{keepAlive},</if>
+          <if test="requireAuth!=null">#{requireAuth},</if>
+          <if test="parentId!=null">#{parentId},</if>
+          <if test="available!=null">#{available},</if>
+          <if test="parentIds!=null">#{parentIds},</if>
+          <if test="resourceType!=null">#{resourceType},</if>
+          <if test="permission!=null">#{permission}</if>
+	    </trim>
+	</insert>    
+    <!--批量创建记录 -->
+	<insert id="batchSave" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_base_menu
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+	          <if test="item.id!=null">f_id,</if>
+	          <if test="item.url!=null">f_url,</if>
+	          <if test="item.path!=null">f_path,</if>
+	          <if test="item.component!=null">f_component,</if>
+	          <if test="item.name!=null">f_name,</if>
+	          <if test="item.iconCls!=null">f_icon_cls,</if>
+	          <if test="item.keepAlive!=null">f_keep_alive,</if>
+	          <if test="item.requireAuth!=null">f_require_auth,</if>
+	          <if test="item.parentId!=null">f_parent_id,</if>
+	          <if test="item.available!=null">f_available,</if>
+	          <if test="item.parentIds!=null">f_parent_ids,</if>
+	          <if test="item.resourceType!=null">f_resource_type,</if>
+	          <if test="item.permission!=null">f_permission</if>
+	    </trim> 
+	    VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+	          <if test="item.id!=null">#{item.id},</if>
+	          <if test="item.url!=null">#{item.url},</if>
+	          <if test="item.path!=null">#{item.path},</if>
+	          <if test="item.component!=null">#{item.component},</if>
+	          <if test="item.name!=null">#{item.name},</if>
+	          <if test="item.iconCls!=null">#{item.iconCls},</if>
+	          <if test="item.keepAlive!=null">#{item.keepAlive},</if>
+	          <if test="item.requireAuth!=null">#{item.requireAuth},</if>
+	          <if test="item.parentId!=null">#{item.parentId},</if>
+	          <if test="item.available!=null">#{item.available},</if>
+	          <if test="item.parentIds!=null">#{item.parentIds},</if>
+	          <if test="item.resourceType!=null">#{item.resourceType},</if>
+	          <if test="item.permission!=null">#{item.permission}</if>
+		    </trim>
+		</foreach>;
+	</insert>
+<!-- 更新记录 -->
+	<update id="update" parameterType="com.cjy.buy.entity.Menu">
+		UPDATE t_base_menu
+		<set>
+          <if test="url!=null">f_url = #{url},</if>
+          <if test="path!=null">f_path = #{path},</if>
+          <if test="component!=null">f_component = #{component},</if>
+          <if test="name!=null">f_name = #{name},</if>
+          <if test="iconCls!=null">f_icon_cls = #{iconCls},</if>
+          <if test="keepAlive!=null">f_keep_alive = #{keepAlive},</if>
+          <if test="requireAuth!=null">f_require_auth = #{requireAuth},</if>
+          <if test="parentId!=null">f_parent_id = #{parentId},</if>
+          <if test="available!=null">f_available = #{available},</if>
+          <if test="parentIds!=null">f_parent_ids = #{parentIds},</if>
+          <if test="resourceType!=null">f_resource_type = #{resourceType},</if>
+          <if test="permission!=null">f_permission = #{permission}</if>
+		</set>
+		<where> 
+        f_id = #{id}
+		</where>				
+	</update>    
+    
+	<!--批量更新记录 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE t_base_menu
+			<set>
+	          <if test="item.url!=null">f_url = #{item.url},</if>
+	          <if test="item.path!=null">f_path = #{item.path},</if>
+	          <if test="item.component!=null">f_component = #{item.component},</if>
+	          <if test="item.name!=null">f_name = #{item.name},</if>
+	          <if test="item.iconCls!=null">f_icon_cls = #{item.iconCls},</if>
+	          <if test="item.keepAlive!=null">f_keep_alive = #{item.keepAlive},</if>
+	          <if test="item.requireAuth!=null">f_require_auth = #{item.requireAuth},</if>
+	          <if test="item.parentId!=null">f_parent_id = #{item.parentId},</if>
+	          <if test="item.available!=null">f_available = #{item.available},</if>
+	          <if test="item.parentIds!=null">f_parent_ids = #{item.parentIds},</if>
+	          <if test="item.resourceType!=null">f_resource_type = #{item.resourceType},</if>
+	          <if test="item.permission!=null">f_permission = #{item.permission}</if>
+			</set>
+			<where> 
+	          f_id = #{item.id}
+			</where>
+		</foreach>
+	</update>    
+    <!-- 按ID查询记录 -->
+	<select id="selectById" parameterType="long" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM t_base_menu
+		WHERE 
+	      f_id = #{id}
+	</select>
+	<!-- 查询所有记录 -->
+	<select id="selectList" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM t_base_menu	
+	</select>
+	
+	<!-- 按Id删除 -->
+	<delete id="deleteById" parameterType="long">
+		DELETE FROM t_base_menu 
+		WHERE 
+	      f_id = #{id}
+	</delete>
+
+	<!-- 按Id批量删除 -->
+	<delete id="deleteBatchIds" parameterType="java.util.List">
+		DELETE FROM t_base_menu WHERE 
+	      f_id
+          in (
+		<foreach collection="list" item="item" index="index" separator=";">
+			#{item}
+		</foreach>
+		)
+	</delete>
+    <select id="selectByPage" parameterType="com.cjy.buy.common.PageInfoReqVo" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from t_base_menu
+	    <where>
+	       1=1
+	       <if test="queryData!=null">
+		       <if test="queryData.url!=null and queryData.url!='' "> and f_url like CONCAT('%',#{queryData.url},'%')</if> 
+			       <if test="queryData.path!=null and queryData.path!='' "> and f_path like CONCAT('%',#{queryData.path},'%')</if> 
+			       <if test="queryData.component!=null and queryData.component!='' "> and f_component like CONCAT('%',#{queryData.component},'%')</if> 
+			       <if test="queryData.name!=null and queryData.name!='' "> and f_name like CONCAT('%',#{queryData.name},'%')</if> 
+			       <if test="queryData.iconCls!=null and queryData.iconCls!='' "> and f_icon_cls like CONCAT('%',#{queryData.iconCls},'%')</if> 
+			       <if test="queryData.keepAlive!=null"> and f_keep_alive = #{queryData.keepAlive}</if>
+			       <if test="queryData.requireAuth!=null"> and f_require_auth = #{queryData.requireAuth}</if>
+			       <if test="queryData.parentId!=null"> and f_parent_id = #{queryData.parentId}</if>
+			       <if test="queryData.available!=null"> and f_available = #{queryData.available}</if>
+			       <if test="queryData.parentIds!=null and queryData.parentIds!='' "> and f_parent_ids like CONCAT('%',#{queryData.parentIds},'%')</if> 
+			       <if test="queryData.resourceType!=null and queryData.resourceType!='' "> and f_resource_type like CONCAT('%',#{queryData.resourceType},'%')</if> 
+			       <if test="queryData.permission!=null and queryData.permission!='' "> and f_permission like CONCAT('%',#{queryData.permission},'%')</if> 
+			   </if>
+	    </where>
+	  </select>
+    
+</mapper>

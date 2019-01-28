@@ -1,0 +1,63 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>主页</title>
+
+	<link rel="stylesheet" type="text/css" href="static/assets/global/plugins/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="static/assets/global/css/components.css">
+	<link rel="stylesheet" type="text/css" href="static/assets/admin/pages/css/login.css">
+	<script src="../statics/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body class="login">
+<div class="content">
+    <div class="form-actions">
+		<button class="btn blue" id="redis" type="submit">redis测试</button>
+		<button class="btn red" id="out" type="submit">注销</button>
+	</div>
+</div>
+</body>
+
+<script>
+
+    jQuery(document).ready(function() {
+
+        $("#out").on("click",function(){
+
+            $.ajax({
+                type:"POST",
+                contentType:"application/x-www-form-urlencoded",
+                url:"http://localhost:8080/user/loginout",
+                data:{
+                },
+                xhrFields:{withCredentials:true},  //跨域信任
+                success:function(data){
+                    console.log(data)
+                    window.location.href="html";
+                }
+            });
+
+            return false;
+
+        });
+        $("#redis").on("click",function(){
+
+            $.ajax({
+                type:"POST",
+                contentType:"application/x-www-form-urlencoded",
+                url:"http://localhost:8080/user/selectList",
+                data:{
+                },
+                xhrFields:{withCredentials:true},  //跨域信任
+                success:function(data){
+                    console.log(data)
+                }
+            });
+
+            return false;
+
+        });
+    });
+
+</script>
+
+</html>

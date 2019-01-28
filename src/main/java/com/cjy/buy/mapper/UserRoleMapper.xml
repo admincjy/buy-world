@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjy.buy.mapper.UserRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cjy.buy.entity.UserRole">
+        <id column="f_id"  property="id" />
+        <result column="f_user_id"  property="userId" />
+        <result column="f_role_id"  property="roleId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        f_id, f_user_id, f_role_id
+    </sql>  
+    
+    <!--创建记录 -->
+	<insert id="insert" parameterType="com.cjy.buy.entity.UserRole" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_base_user_role
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id!=null">f_id,</if>
+          <if test="userId!=null">f_user_id,</if>
+          <if test="roleId!=null">f_role_id</if>
+        </trim>
+	    <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+          <if test="id!=null">#{id},</if>
+          <if test="userId!=null">#{userId},</if>
+          <if test="roleId!=null">#{roleId}</if>
+	    </trim>
+	</insert>    
+    <!--批量创建记录 -->
+	<insert id="batchSave" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_base_user_role
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+	          <if test="item.id!=null">f_id,</if>
+	          <if test="item.userId!=null">f_user_id,</if>
+	          <if test="item.roleId!=null">f_role_id</if>
+	    </trim> 
+	    VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+	          <if test="item.id!=null">#{item.id},</if>
+	          <if test="item.userId!=null">#{item.userId},</if>
+	          <if test="item.roleId!=null">#{item.roleId}</if>
+		    </trim>
+		</foreach>;
+	</insert>
+<!-- 更新记录 -->
+	<update id="update" parameterType="com.cjy.buy.entity.UserRole">
+		UPDATE t_base_user_role
+		<set>
+          <if test="userId!=null">f_user_id = #{userId},</if>
+          <if test="roleId!=null">f_role_id = #{roleId}</if>
+		</set>
+		<where> 
+        f_id = #{id}
+		</where>				
+	</update>    
+    
+	<!--批量更新记录 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE t_base_user_role
+			<set>
+	          <if test="item.userId!=null">f_user_id = #{item.userId},</if>
+	          <if test="item.roleId!=null">f_role_id = #{item.roleId}</if>
+			</set>
+			<where> 
+	          f_id = #{item.id}
+			</where>
+		</foreach>
+	</update>    
+    <!-- 按ID查询记录 -->
+	<select id="selectById" parameterType="long" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM t_base_user_role
+		WHERE 
+	      f_id = #{id}
+	</select>
+	<!-- 查询所有记录 -->
+	<select id="selectList" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM t_base_user_role	
+	</select>
+	
+	<!-- 按Id删除 -->
+	<delete id="deleteById" parameterType="long">
+		DELETE FROM t_base_user_role 
+		WHERE 
+	      f_id = #{id}
+	</delete>
+
+	<!-- 按Id批量删除 -->
+	<delete id="deleteBatchIds" parameterType="java.util.List">
+		DELETE FROM t_base_user_role WHERE 
+	      f_id
+          in (
+		<foreach collection="list" item="item" index="index" separator=";">
+			#{item}
+		</foreach>
+		)
+	</delete>
+    <select id="selectByPage" parameterType="com.cjy.buy.common.PageInfoReqVo" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from t_base_user_role
+	    <where>
+	       1=1
+	       <if test="queryData!=null">
+		       <if test="queryData.userId!=null"> and f_user_id = #{queryData.userId}</if>
+			       <if test="queryData.roleId!=null"> and f_role_id = #{queryData.roleId}</if>
+			   </if>
+	    </where>
+	  </select>
+    
+</mapper>
