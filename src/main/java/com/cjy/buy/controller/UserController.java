@@ -149,13 +149,14 @@ public class UserController {
      * 登陆
      */
     @RequestMapping("/login")
-    public BaseRespMsg login(String username,String password){
+    public BaseRespMsg login(String username,String password,boolean rememberMe){
         //把前端输入的username和password封装为token
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         Subject subject = SecurityUtils.getSubject();
         new BaseRespMsg();
         try {
             //进行验证，这里可以捕获异常，然后返回对应信息
+            token.setRememberMe(rememberMe);
             subject.login(token);
             System.out.println("是否登录:"+subject.isAuthenticated());
             System.out.println("用户权限是否有VIP权限:"+subject.hasRole("vip"));

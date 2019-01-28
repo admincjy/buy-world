@@ -9,7 +9,9 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -66,6 +68,22 @@ public class ShiroConfig {
     }
 
 
+    @Bean
+    public SimpleCookie cookie(){
+        SimpleCookie simpleCookie=new SimpleCookie();
+        simpleCookie.setName("rememberMe");
+        //记着我的cookie的持续时间
+        simpleCookie.setMaxAge(3600);
+        return simpleCookie;
+    }
+
+    @Bean
+    public CookieRememberMeManager cookieRememberMeManager(){
+        CookieRememberMeManager cookieRememberMeManager=new CookieRememberMeManager();
+        cookieRememberMeManager.setCookie(cookie());
+        return cookieRememberMeManager;
+    }
+
     @Bean("redisCacheManager")
     public RedisCacheManager redisCacheManager(){
         RedisCacheManager redisCacheManager=new RedisCacheManager();
@@ -82,6 +100,7 @@ public class ShiroConfig {
         manager.setRealm(authRealm);
         manager.setSessionManager(sessionManager());
         manager.setCacheManager(redisCacheManager());
+        manager.setRememberMeManager(cookieRememberMeManager());
         return manager;
     }
 
